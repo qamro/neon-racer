@@ -442,3 +442,44 @@ def draw_road():
         )
 
 
+# HUD
+def draw_hud(score, speed, boost):
+    score_text = FONT.render(
+        f"SCORE: {score}",
+        True,
+        WHITE
+    )
+
+    speed_text = FONT.render(
+        f"SPEED: {int(speed)}",
+        True,
+        CYAN
+    )
+
+    screen.blit(
+        score_text,
+        (25, 20)
+    )
+
+    screen.blit(
+        speed_text,
+        (
+            WIDTH - speed_text.get_width() - 25,
+            20
+        )
+    )
+
+    if boost:
+        boost_text = SMALL_FONT.render(
+            "BOOST!",
+            True,
+            YELLOW
+        )
+
+        screen.blit(
+            boost_text,
+            (
+                WIDTH // 2 - boost_text.get_width() // 2,
+                HEIGHT - 42
+            )
+        )
