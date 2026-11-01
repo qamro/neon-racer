@@ -599,3 +599,161 @@ def spawn_boost(boost_pads):
         )
     )
 
+
+
+
+# start main game
+(
+    player,
+    traffic,
+    boost_pads,
+    score,
+    distance_score,
+    speed,
+    spawn_timer,
+    boost_timer,
+    game_over
+) = reset_game()
+
+running = True
+
+while running:
+    dt = clock.tick(FPS)
+
+
+    # events
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_ESCAPE:
+                running = False
+
+            if event.key == pygame.K_r and game_over:
+                (
+                    player,
+                    traffic,
+                    boost_pads,
+                    score,
+                    distance_score,
+                    speed,
+                    spawn_timer,
+                    boost_timer,
+                    game_over
+                ) = reset_game()
+
+
+    # update
+    if not game_over:
+
+        player.update()
+
+        # boost from keyboard or boost pad.
+        current_speed = BOOST_SPEED if player.boost else speed
+
+        if boost_timer > 0:
+            boost_timer -= 1
+            current_speed = BOOST_SPEED
+
+
+        # distance / score
+        distance_score += current_speed / FPS
+
+        score = int(distance_score)
+
+        # difficulty increases gradually
+        speed = min(
+            14,
+            BASE_SPEED + score / 800
+        )
+
+
+        # road animation
+        road_offset += current_speed
+
+
+        # traffic spawning
+        spawn_timer += dt
+
+        spawn_delay = max(
+            420,
+            900 - score * 2
+        )
+
+        if spawn_timer >= spawn_delay:
+            spawn_timer = 0
+            spawn_traffic(traffic)
+
+
+        # boost pad spawning
+        if random.random() < 0.0015:
+            spawn_boost(boost_pads)
+
+
+        # move traffic
+        for car in traffic:
+            car.update(current_speed)
+
+
+        # move boost pads
+        for pad in boost_pads:
+            pad.update(current_speed)
+
+
+        # collision with traffic
+        for car in traffic:
+
+            if player.rect.colliderect(car.rect):
+
+                game_over = True
+                break
+
+
+        # boost pad collision
+        for pad in boost_pads[:]:
+
+            if player.rect.colliderect(pad.rect):
+
+                boost_timer = FPS * 2
+
+                boost_pads.remove(pad)
+
+
+        # remove objects outside screen
+        traffic = [
+            car for car in traffic
+            if car.y < HEIGHT + 150
+        ]
+
+        boost_pads = [
+            pad for pad in boost_pads
+            if pad.y < HEIGHT + 100
+        ]
+
+
+    # draw
+    draw_road()
+
+    for pad in boost_pads:
+        pad.draw()
+
+    for car in traffic:
+        car.draw()
+
+    player.draw()
+
+    draw_hud(
+        score,
+        BOOST_SPEED if player.boost or boost_timer > 0 else speed,
+        player.boost or boost_timer > 0
+    )
+
+    if game_over:
+        draw_game_over(score)
+
+    pygame.display.flip()
+
+pygame.quit()
