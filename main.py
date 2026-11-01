@@ -33,3 +33,14 @@ SMALL_FONT = pygame.font.SysFont("arial", 18, bold=True)
 BIG_FONT = pygame.font.SysFont("arial", 56, bold=True)
 
 
+# road settings
+
+LANES = 3
+ROAD_WIDTH = 600
+ROAD_LEFT = (WIDTH - ROAD_WIDTH) // 2
+LANE_WIDTH = ROAD_WIDTH // LANES
+
+PLAYER_Y = HEIGHT - 135
+
+BASE_SPEED = 6.0
+BOOST_SPEED = 11.0
