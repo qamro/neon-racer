@@ -199,3 +199,102 @@ class Player:
                     (r.centerx + 5, r.bottom)
                 ]
             )
+
+
+# traffic car
+class TrafficCar:
+    def __init__(self, lane, y, color=None):
+        self.lane = lane
+        self.x = ROAD_LEFT + lane * LANE_WIDTH + LANE_WIDTH // 2
+        self.y = float(y)
+
+        self.width = 60
+        self.height = 100
+
+        self.color = color or random.choice([
+            RED,
+            ORANGE,
+            PURPLE,
+            (40, 210, 150)
+        ])
+
+    @property
+    def rect(self):
+        return pygame.Rect(
+            int(self.x - self.width // 2),
+            int(self.y - self.height // 2),
+            self.width,
+            self.height
+        )
+
+    def update(self, speed):
+        self.y += speed
+
+    def draw(self):
+        r = self.rect
+
+        # glow
+        pygame.draw.rect(
+            screen,
+            (65, 20, 35),
+            r.inflate(24, 24),
+            border_radius=18
+        )
+
+        # body
+        pygame.draw.rect(
+            screen,
+            self.color,
+            r,
+            border_radius=15
+        )
+
+        # outline
+        pygame.draw.rect(
+            screen,
+            WHITE,
+            r,
+            2,
+            border_radius=15
+        )
+
+        # windows
+        window = pygame.Rect(
+            r.x + 9,
+            r.y + 14,
+            r.width - 18,
+            35
+        )
+
+        pygame.draw.rect(
+            screen,
+            (15, 25, 35),
+            window,
+            border_radius=8
+        )
+
+        pygame.draw.rect(
+            screen,
+            GRAY,
+            window,
+            2,
+            border_radius=8
+        )
+
+        # rear lights
+        pygame.draw.rect(
+            screen,
+            RED,
+            (r.x + 8, r.bottom - 18, 13, 7),
+            border_radius=3
+        )
+
+        pygame.draw.rect(
+            screen,
+            RED,
+            (r.right - 21, r.bottom - 18, 13, 7),
+            border_radius=3
+        )
+        
+        
+
