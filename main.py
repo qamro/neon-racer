@@ -298,3 +298,55 @@ class TrafficCar:
         
         
 
+# boost pad
+class BoostPad:
+    def __init__(self, lane, y):
+        self.lane = lane
+        self.x = ROAD_LEFT + lane * LANE_WIDTH + LANE_WIDTH // 2
+        self.y = float(y)
+        self.width = 105
+        self.height = 50
+
+    @property
+    def rect(self):
+        return pygame.Rect(
+            int(self.x - self.width // 2),
+            int(self.y - self.height // 2),
+            self.width,
+            self.height
+        )
+
+    def update(self, speed):
+        self.y += speed
+
+    def draw(self):
+        r = self.rect
+
+        pygame.draw.rect(
+            screen,
+            (85, 70, 15),
+            r,
+            border_radius=8
+        )
+
+        pygame.draw.rect(
+            screen,
+            YELLOW,
+            r,
+            3,
+            border_radius=8
+        )
+
+        # arrows
+        for offset in (-28, 0, 28):
+            pygame.draw.polygon(
+                screen,
+                YELLOW,
+                [
+                    (self.x + offset - 10, self.y + 9),
+                    (self.x + offset, self.y - 10),
+                    (self.x + offset + 10, self.y + 9)
+                ]
+            )
+
+
