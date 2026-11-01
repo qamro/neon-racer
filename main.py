@@ -442,7 +442,7 @@ def draw_road():
         )
 
 
-# HUD
+# HUD(heads up display)
 def draw_hud(score, speed, boost):
     score_text = FONT.render(
         f"SCORE: {score}",
@@ -483,3 +483,56 @@ def draw_hud(score, speed, boost):
                 HEIGHT - 42
             )
         )
+
+
+# game over screen
+def draw_game_over(score):
+    overlay = pygame.Surface(
+        (WIDTH, HEIGHT),
+        pygame.SRCALPHA
+    )
+
+    overlay.fill((0, 0, 0, 185))
+    screen.blit(overlay, (0, 0))
+
+    title = BIG_FONT.render(
+        "CRASHED!",
+        True,
+        RED
+    )
+
+    score_text = FONT.render(
+        f"Final score: {score}",
+        True,
+        WHITE
+    )
+
+    restart_text = SMALL_FONT.render(
+        "Press R to race again  •  ESC to quit",
+        True,
+        WHITE
+    )
+
+    screen.blit(
+        title,
+        title.get_rect(
+            center=(WIDTH // 2, HEIGHT // 2 - 70)
+        )
+    )
+
+    screen.blit(
+        score_text,
+        score_text.get_rect(
+            center=(WIDTH // 2, HEIGHT // 2)
+        )
+    )
+
+    screen.blit(
+        restart_text,
+        restart_text.get_rect(
+            center=(WIDTH // 2, HEIGHT // 2 + 55)
+        )
+    )
+
+
+
