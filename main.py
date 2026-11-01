@@ -27,3 +27,9 @@ PURPLE = (190, 70, 255)
 ORANGE = (255, 135, 40)
 GRAY = (80, 95, 115)
 
+# fonts 
+FONT = pygame.font.SysFont("arial", 28, bold=True)
+SMALL_FONT = pygame.font.SysFont("arial", 18, bold=True)
+BIG_FONT = pygame.font.SysFont("arial", 56, bold=True)
+
+
