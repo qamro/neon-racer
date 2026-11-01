@@ -536,3 +536,32 @@ def draw_game_over(score):
 
 
 
+# reset
+def reset_game():
+    player = Player()
+
+    traffic = []
+    boost_pads = []
+
+    score = 0
+    distance_score = 0
+
+    speed = BASE_SPEED
+
+    spawn_timer = 0
+    boost_timer = 0
+
+    game_over = False
+
+    return (
+        player,
+        traffic,
+        boost_pads,
+        score,
+        distance_score,
+        speed,
+        spawn_timer,
+        boost_timer,
+        game_over
+    )
+
