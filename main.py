@@ -350,3 +350,95 @@ class BoostPad:
             )
 
 
+# road drawing
+
+road_offset = 0
+
+
+def draw_road():
+    global road_offset
+
+    screen.fill(BLACK)
+
+    # background
+    pygame.draw.rect(
+        screen,
+        ROAD_DARK,
+        (ROAD_LEFT - 45, 0, ROAD_WIDTH + 90, HEIGHT)
+    )
+
+    # road
+    pygame.draw.rect(
+        screen,
+        ROAD,
+        (ROAD_LEFT, 0, ROAD_WIDTH, HEIGHT)
+    )
+
+    # neon road edges
+    pygame.draw.line(
+        screen,
+        CYAN,
+        (ROAD_LEFT, 0),
+        (ROAD_LEFT, HEIGHT),
+        5
+    )
+
+    pygame.draw.line(
+        screen,
+        CYAN,
+        (ROAD_LEFT + ROAD_WIDTH, 0),
+        (ROAD_LEFT + ROAD_WIDTH, HEIGHT),
+        5
+    )
+
+    # yellow outer lights
+    for y in range(-50, HEIGHT + 50, 55):
+        yy = (y + int(road_offset * 1.5)) % (HEIGHT + 55) - 55
+
+        pygame.draw.rect(
+            screen,
+            YELLOW,
+            (ROAD_LEFT - 30, yy, 8, 30),
+            border_radius=4
+        )
+
+        pygame.draw.rect(
+            screen,
+            YELLOW,
+            (ROAD_LEFT + ROAD_WIDTH + 22, yy, 8, 30),
+            border_radius=4
+        )
+
+    # lane markings
+    for lane in range(1, LANES):
+        x = ROAD_LEFT + lane * LANE_WIDTH
+
+        for y in range(-80, HEIGHT + 80, 80):
+            yy = (y + int(road_offset)) % (HEIGHT + 80) - 80
+
+            pygame.draw.rect(
+                screen,
+                WHITE,
+                (x - 3, yy, 6, 42),
+                border_radius=3
+            )
+
+    # side details
+    for y in range(-40, HEIGHT + 40, 65):
+        yy = (y + int(road_offset * 0.7)) % (HEIGHT + 65) - 65
+
+        pygame.draw.circle(
+            screen,
+            BLUE,
+            (ROAD_LEFT - 18, yy),
+            4
+        )
+
+        pygame.draw.circle(
+            screen,
+            BLUE,
+            (ROAD_LEFT + ROAD_WIDTH + 18, yy),
+            4
+        )
+
+
