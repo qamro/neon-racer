@@ -588,3 +588,14 @@ def spawn_traffic(traffic):
             return
 
 
+# spawn boost
+def spawn_boost(boost_pads):
+    lane = random.randrange(LANES)
+
+    boost_pads.append(
+        BoostPad(
+            lane,
+            -150
+        )
+    )
+
