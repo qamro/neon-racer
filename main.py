@@ -565,3 +565,26 @@ def reset_game():
         game_over
     )
 
+
+# spawn traffic
+def spawn_traffic(traffic):
+    # pick a lane that is not occupied near the top.
+    possible_lanes = list(range(LANES))
+    random.shuffle(possible_lanes)
+
+    for lane in possible_lanes:
+        blocked = any(
+            car.lane == lane and car.y < 180
+            for car in traffic
+        )
+
+        if not blocked:
+            traffic.append(
+                TrafficCar(
+                    lane,
+                    -120
+                )
+            )
+            return
+
+
